@@ -1,0 +1,25 @@
+# Local environment and build outputs
+.gradle/
+**/build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Original handoff evidence stays local; current docs carry provenance.
+.handoff/
+artifacts/
+diagnostics/
+
+# Signing material and private configuration
+*.jks
+*.keystore
+keystore.properties
+.env
+.env.*
+!.env.example
+
+# Device captures are never source files.
+*.hprof
+*.log

@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.application'
+}
+
+def releaseVersion = new Properties()
+rootProject.file('version.properties').withInputStream { releaseVersion.load(it) }
+def versionNameValue = releaseVersion.getProperty('versionName')
+def versionCodeValue = releaseVersion.getProperty('versionCode')
+if (!versionNameValue || !(versionCodeValue ==~ /[1-9]\d*/)) {
+    throw new GradleException('version.properties requires versionName and a positive integer versionCode')
+}
+
+def signingVariables = ['SWIPE_KEYSTORE', 'SWIPE_KEY_ALIAS', 'SWIPE_STORE_PASSWORD', 'SWIPE_KEY_PASSWORD']
+def signingValues = signingVariables.collectEntries { name ->
+    [(name): providers.environmentVariable(name).orNull]
+}
+def providedSigningVariables = signingVariables.findAll { signingValues[it] }
+def releaseSigningAvailable = providedSigningVariables.size() == signingVariables.size()
+if (!providedSigningVariables.isEmpty() && !releaseSigningAvailable) {
+    throw new GradleException('Incomplete release signing configuration. Missing: ' +
+            (signingVariables - providedSigningVariables).join(', '))
+}
+if (releaseSigningAvailable && !rootProject.file(signingValues.SWIPE_KEYSTORE).isFile()) {
+    throw new GradleException('SWIPE_KEYSTORE must point to an existing keystore file')
+}
+
+android {
+    namespace 'com.local.swipepilot'
+    compileSdk 36
+    buildToolsVersion '35.0.0'
+
+    defaultConfig {
+        applicationId 'com.local.swipepilot'
+        minSdk 26
+        targetSdk 34
+        versionCode Integer.parseInt(versionCodeValue)
+        versionName versionNameValue
+        resValue 'string', 'app_name', '轻滑助手'
+        // Class names retain the namespace when the debug application ID gains a suffix.
+        resValue 'string', 'accessibility_settings_activity', 'com.local.swipepilot.MainActivity'
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        if (releaseSigningAvailable) {
+            release {
+                storeFile rootProject.file(signingValues.SWIPE_KEYSTORE)
+                storePassword signingValues.SWIPE_STORE_PASSWORD
+                keyAlias signingValues.SWIPE_KEY_ALIAS
+                keyPassword signingValues.SWIPE_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            resValue 'string', 'app_name', '轻滑助手·开发版'
+        }
+        release {
+            minifyEnabled false
+            if (releaseSigningAvailable) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError true
+        htmlReport true
+        xmlReport true
+    }
+}
+
+dependencies {
+    implementation project(':policy')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

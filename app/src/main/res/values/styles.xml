@@ -1,0 +1,11 @@
+<resources>
+    <string name="service_description">经你启动后，在选定 App 内定时上滑，并读取当前页面文字识别广告倒计时。悬浮条可暂停或返回主 App。页面文字仅在手机内处理，不联网、不保存。服务由你在系统设置中开启，可随时关闭。</string>
+    <style name="AppTheme.Base" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item><item name="android:colorAccent">#167D72</item>
+        <item name="android:statusBarColor">#F5F7F5</item><item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:navigationBarColor">#192D2A</item>
+    </style>
+</resources>
