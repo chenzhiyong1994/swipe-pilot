@@ -25,10 +25,10 @@ flowchart LR
 | `app/.../ServiceDiagnostics.java` | 服务连接/解绑/销毁/中断、会话开始/结束、轮询异常的诊断 | 只写稳定事件代码与异常类名，不写异常消息、页面或目标应用 |
 | `app/.../Config.java` | 按应用设置、默认值迁移、随机间隔 | 本地保存，不混入页面内容 |
 | `app/.../TaobaoPopup.java` | Android 弹窗节点与明确关闭控件筛选 | 不用截图固定坐标，无法证明关闭节点时暂停 |
-| `app/.../RecentTasks.java` | 最近任务中定位原应用卡片 | 有限搜索，不清理任务、不重启目标应用 |
+| `app/.../RecentTasks.java` | 最近任务中定位目标应用卡片 | 有限搜索，不清理任务、不重启目标应用 |
 | `DemoActivity` / `DemoAdActivity` | 可控制的练习与广告模拟 | 演示证据独立于真实第三方应用证据 |
 
-源码中的纯策略类沿用 `com.local.swipepilot` 包，移动模块不要求修改产品类名。Android APK 的 applicationId 在 Debug 中带 `.debug`，Java namespace 与 applicationId 不能混为一谈。
+纯策略与 Android 适配类使用 `com.local.swipepilot` namespace。Debug 的 applicationId 带 `.debug` 后缀，Java namespace 与 applicationId 分别管理。
 
 ## 策略的输入与动作约束
 

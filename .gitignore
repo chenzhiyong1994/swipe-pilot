@@ -7,7 +7,7 @@ local.properties
 .DS_Store
 Thumbs.db
 
-# Original handoff evidence stays local; current docs carry provenance.
+# Local-only materials, generated artifacts and diagnostics
 .handoff/
 artifacts/
 diagnostics/
@@ -15,6 +15,8 @@ diagnostics/
 # Signing material and private configuration
 *.jks
 *.keystore
+*.p12
+*.pfx
 keystore.properties
 .env
 .env.*

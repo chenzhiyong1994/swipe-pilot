@@ -6,7 +6,8 @@
 - 大字、大点击区域、少步骤；首页突出应用选择和“保存并启动”。
 - 图标提供清楚的无障碍描述，点击区域至少 48dp。
 - 保留计时翻页与广告返回两种模式，不擅自增加 OCR、云端识别或后台强拉回。
-- 当前工程和有效需求是实现依据；`.handoff/` 的材料用于追溯，历史记录不代表本次验证。
+- 当前工程和有效需求是实现依据；有日期的验证记录只证明其记录范围。
+- README 与发布说明面向使用者和贡献者，只描述当前产品、安装、开发与发布信息，不加入材料来源叙事或 Agent 执行过程。
 
 ## 必须保持的行为
 
@@ -25,12 +26,12 @@
 
 - `:policy` 是不依赖 Android 的 Java 策略；平台节点、手势、窗口与存储留在 `:app`。
 - 版本只改 `version.properties`；构建与签名信息见 `docs/development.md`、`docs/release.md`。
-- 原始交接、媒体与设备数据只存本地忽略目录，不纳入源码。
+- 私钥、密码、媒体与设备数据只存本地忽略目录，不纳入源码。
 - 变更产品行为先保留聚焦基线，再运行最窄有效验证；不削弱测试或验收条件。
 - 适用检查：`gradlew :policy:test :app:lintDebug :app:assembleDebug`。
 - 仅策略离线快检：`scripts/test-policy.ps1`；它不替代 Android 构建或真机验收。
-- 真机操作前确认当前设备并指定 serial；不按历史设备清单批量安装。
-- 不擅自卸载原应用或清理用户数据；Debug 可并存，Release 覆盖须保持原签名。
+- 真机操作前确认当前设备并指定 serial，不批量安装到未确认的设备。
+- 不擅自卸载应用或清理用户数据；Debug 与 Release 独立，正式升级保持相同发布签名。
 
 ## 按任务读取
 
@@ -38,6 +39,6 @@
 - 架构、开发、贡献：`docs/architecture.md`、`docs/development.md`。
 - 真机验证或授权故障：`docs/device-validation.md`。
 - 发布签名：`docs/release.md`；公开发布另遵循全局安全发布规则。
-- 待办与来源：`docs/roadmap.md`、`docs/provenance.md`。
-- 验证结论写入 `docs/validation/`，明确当前/历史、策略/演示/第三方页面的证据层次。
+- 待办：`docs/roadmap.md`。
+- 验证结论写入 `docs/validation/`，明确日期以及策略、演示和第三方页面的证据层次。
 - 改动影响行为、构建或接口时，同轮窄幅同步相关文档与 CHANGELOG，不扩写本入口。
